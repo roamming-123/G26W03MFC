@@ -1,13 +1,15 @@
 ﻿
 // 2026G26W03WFCDoc.h: CMy2026G26W03WFCDoc 클래스의 인터페이스
-//
-
-
 #pragma once
 
 
 class CMy2026G26W03WFCDoc : public CDocument
 {
+protected:
+	CPoint Point = CPoint(-100, -100);
+public:
+	CPoint GetPoint() { return Point; }
+	void SetPoint(CPoint p) { Point = p; }
 protected: // serialization에서만 만들어집니다.
 	CMy2026G26W03WFCDoc() noexcept;
 	DECLARE_DYNCREATE(CMy2026G26W03WFCDoc)

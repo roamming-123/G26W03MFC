@@ -27,7 +27,8 @@ BEGIN_MESSAGE_MAP(CMy2026G26W03WFCView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
-END_MESSAGE_MAP()
+	ON_WM_LBUTTONDOWN()
+	END_MESSAGE_MAP()
 
 // CMy2026G26W03WFCView 생성/소멸
 
@@ -46,20 +47,24 @@ BOOL CMy2026G26W03WFCView::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: CREATESTRUCT cs를 수정하여 여기에서
 	//  Window 클래스 또는 스타일을 수정합니다.
 
+
 	return CView::PreCreateWindow(cs);
 }
 
 // CMy2026G26W03WFCView 그리기
 
-void CMy2026G26W03WFCView::OnDraw(CDC* /*pDC*/)
+void CMy2026G26W03WFCView::OnDraw(CDC* pDC)
 {
 	CMy2026G26W03WFCDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
+	
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	CPoint p = pDoc->GetPoint();
+	pDC->Ellipse(p.x - 30, p.y - 30, p.x+30, p.y+30);
 }
+
 
 
 // CMy2026G26W03WFCView 인쇄
@@ -101,5 +106,14 @@ CMy2026G26W03WFCDoc* CMy2026G26W03WFCView::GetDocument() const // 디버그되�
 }
 #endif //_DEBUG
 
-
+ 
 // CMy2026G26W03WFCView 메시지 처리기
+
+void CMy2026G26W03WFCView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	GetDocument()->SetPoint(point);
+	Invalidate();
+
+	CView::OnLButtonDown(nFlags, point);
+}
