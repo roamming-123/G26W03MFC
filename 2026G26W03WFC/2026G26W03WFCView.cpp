@@ -28,6 +28,7 @@ BEGIN_MESSAGE_MAP(CMy2026G26W03WFCView, CView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_RBUTTONDOWN()
 	END_MESSAGE_MAP()
 
 // CMy2026G26W03WFCView 생성/소멸
@@ -59,10 +60,15 @@ void CMy2026G26W03WFCView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-	
+
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
-	CPoint p = pDoc->GetPoint();
-	pDC->Ellipse(p.x - 30, p.y - 30, p.x+30, p.y+30);
+	//CPoint p = pDoc->GetPoint();
+	//pDC->Ellipse(p.x - 30, p.y - 30, p.x + 30, p.y + 30);
+
+	for (int i = 0; i < pDoc->GetPointsCount(); i++) {
+		CPoint p = pDoc->GetPoint(i);
+		pDC->Ellipse(p.x - 30, p.y - 30, p.x + 30, p.y + 30);
+	}
 }
 
 
@@ -112,8 +118,19 @@ CMy2026G26W03WFCDoc* CMy2026G26W03WFCView::GetDocument() const // 디버그되�
 void CMy2026G26W03WFCView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	GetDocument()->SetPoint(point);
+	//GetDocument()->SetPoint(point);
+	GetDocument()->AddPoint(point);
 	Invalidate();
 
 	CView::OnLButtonDown(nFlags, point);
+}
+
+void CMy2026G26W03WFCView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	//GetDocument()->SetPoint(point);
+	GetDocument()->RemoveLast();
+	Invalidate();
+
+	CView::OnRButtonDown(nFlags, point);
 }
